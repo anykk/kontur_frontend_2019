@@ -1,24 +1,32 @@
+const minSizes = {
+    user: 4,
+    date: 4,
+    comment: 7,
+    fileName: 8
+};
+
+const maxSizes = {
+    user: 10,
+    date: 10,
+    comment: 50,
+    fileName: 15
+};
+
+const fieldToSizeMap = new Map([
+    ['user', todo => todo.user.length ],
+    ['date', todo => todo.date.repr.length],
+    ['comment', todo => todo.comment.length],
+    ['fileName', todo => todo.fileName.length]
+]);
+
 function calcColumnSizes (todoList) {
-    const maxUserSize = 10;
-    const maxDateSize = 10;
-    const maxCommentSize = 50;
-    const maxFileNameSize = 15;
-    const sizes = {
-        user: 4,
-        date: 4,
-        comment: 7,
-        fileName: 8
-    };
+    const sizes = Object.assign({}, minSizes);
     const preferSize = (a, b, bound) => Math.min(Math.max(a, b), bound);
     todoList.forEach(todo => {
-        const userSize = todo.user.length;
-        const dateSize = todo.date.repr.length;
-        const commentSize = todo.comment.length;
-        const fileNameSize = todo.fileName.length;
-        sizes.user = preferSize(sizes.user, userSize, maxUserSize);
-        sizes.date = preferSize(sizes.date, dateSize, maxDateSize);
-        sizes.comment = preferSize(sizes.comment, commentSize, maxCommentSize);
-        sizes.fileName = preferSize(sizes.fileName, fileNameSize, maxFileNameSize);
+        fieldToSizeMap.forEach((f, key) => {
+            const todoFieldSize = f(todo);
+            sizes[key] = preferSize(sizes[key], todoFieldSize, maxSizes[key]);
+        });
     });
     return sizes;
 }
