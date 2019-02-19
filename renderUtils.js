@@ -1,3 +1,21 @@
+/**
+ * @typedef {import('./parsing').TodoComment} TodoComment
+ */
+
+/**
+ * Object with column sizes.
+ * Each field of it defines size of corresponding column.
+ * @typedef {Object} ColumnSizes
+ * @property {number} user
+ * @property {number} date
+ * @property {number} comment
+ * @property {number} fileName
+ */
+
+/**
+ * Defines minimal column sizes.
+ * @type {ColumnSizes}
+ */
 const minSizes = {
 	user: 4,
 	date: 4,
@@ -5,6 +23,10 @@ const minSizes = {
 	fileName: 8,
 };
 
+/**
+ * Defines maximal column sizes.
+ * @type {ColumnSizes}
+ */
 const maxSizes = {
 	user: 10,
 	date: 10,
@@ -19,6 +41,11 @@ const fieldToSizeMap = new Map([
 	['fileName', todo => todo.fileName.length],
 ]);
 
+/**
+ * Calculates column sizes based on todo comments to render.
+ * @param {Array<TodoComment>} todoList
+ * @returns {ColumnSizes}
+ */
 function calcColumnSizes(todoList) {
 	const sizes = Object.assign({}, minSizes);
 	const preferSize = (a, b, bound) => Math.min(Math.max(a, b), bound);
@@ -31,6 +58,12 @@ function calcColumnSizes(todoList) {
 	return sizes;
 }
 
+/**
+ * Renders one column of table.
+ * @param {string} value
+ * @param {number} maxSize
+ * @returns {string}
+ */
 function renderColumn(value, maxSize) {
 	const padding = '  ';
 	if (value.length > maxSize) {
@@ -44,6 +77,12 @@ function renderColumn(value, maxSize) {
 	return column;
 }
 
+/**
+ * Renders one line of table (or concrete todo).
+ * @param {TodoComment} todo
+ * @param {ColumnSizes} sizes
+ * @returns {string}
+ */
 function renderTodo(todo, sizes) {
 	return [
 		todo => [todo.importance ? '!' : ' ', 1],
@@ -56,6 +95,11 @@ function renderTodo(todo, sizes) {
 		.join('|');
 }
 
+/**
+ * Renders header line of table.
+ * @param {ColumnSizes} sizes
+ * @returns {string}
+ */
 function renderHeader(sizes) {
 	return renderTodo(
 		{
@@ -71,6 +115,11 @@ function renderHeader(sizes) {
 	);
 }
 
+/**
+ * Renders all table (or actual todo list).
+ * @param {Array<TodoComment>} todoList
+ * @returns {string}
+ */
 function renderTodoList(todoList) {
 	const sizes = calcColumnSizes(todoList);
 	const header = renderHeader(sizes);

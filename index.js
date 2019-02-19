@@ -29,6 +29,16 @@ function app() {
 	readLine(readLineCb);
 }
 
+/**
+ * @typedef {Object} FileObject
+ * @property {string} fileName
+ * @property {string} data - content of file.
+ */
+
+/**
+ * Gets all file names and data from files from current directory.
+ * @returns {Array<FileObject>}
+ */
 function getFiles() {
 	const filePaths = getAllFilePathsWithExtension(process.cwd(), 'js');
 	return filePaths.map(path => ({
