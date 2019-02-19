@@ -116,8 +116,10 @@ function processCommand(command) {
 	function sortCommand() {
 		const availableTypes = ['importance', 'user', 'date'];
 		if (!isCorrectArgs(args, availableTypes, 1)) {
-			return console.log(`Sort command require 1 argument!
-                It's may be one of ${availableTypes}.`);
+			return console.log(
+				'Sort command require 1 argument! ' +
+					`It's may be one of [${availableTypes.join(', ')}].`
+			);
 		}
 		const map = new Map([
 			[availableTypes[0], () => todoList.sort(compareByImportance)],

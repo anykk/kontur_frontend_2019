@@ -3,7 +3,7 @@ const { parseTodo, isCorrectDate } = require('./parsing');
 /**
  * @typedef {import('./index').FileObject} FileObject
  * @typedef {import('./parsing').TodoComment} TodoComment
-*/
+ */
 
 /**
  * Claims all todo from files.
