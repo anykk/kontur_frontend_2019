@@ -66,28 +66,17 @@ function processCommand(command) {
 	const [, todoList] = arguments;
 	command = normalizeCommand(command);
 	[command, ...args] = command.split(' ');
-	switch (command) {
-		case 'exit':
-			process.exit(0);
-		case 'show':
-			showCommand();
-			break;
-		case 'important':
-			importantCommand();
-			break;
-		case 'user':
-			userCommand();
-			break;
-		case 'sort':
-			sortCommand();
-			break;
-		case 'date':
-			dateCommand();
-			break;
-		default:
-			console.log('wrong command');
-			break;
-	}
+	const commandHandlers = new Map([
+		['exit', () => process.exit(0)],
+		['show', showCommand],
+		['important', importantCommand],
+		['user', userCommand],
+		['sort', sortCommand],
+		['date', dateCommand],
+	]);
+	const defaultHandler = () => console.log('wrong command');
+	const handler = commandHandlers.get(command) || defaultHandler;
+	handler();
 
 	function showCommand() {
 		if (!isCorrectArgs(args)) {

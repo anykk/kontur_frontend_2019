@@ -38,15 +38,13 @@ function compareByUser(a, b) {
 	if (userA && !userB) {
 		return -1;
 	}
-	if (userA === userB) {
-		return 0;
-	}
 	if (userA > userB) {
 		return 1;
 	}
 	if (userA < userB) {
 		return -1;
 	}
+	return 0;
 }
 
 module.exports = {
