@@ -84,6 +84,9 @@ function renderColumn(value, maxSize) {
  * @returns {string}
  */
 function renderTodo(todo, sizes) {
+	if (!todo.comment) {
+		return '';
+	}
 	return [
 		todo => [todo.importance ? '!' : ' ', 1],
 		todo => [todo.user, sizes.user],
